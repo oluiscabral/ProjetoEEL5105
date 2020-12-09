@@ -1,5 +1,7 @@
 LIBRARY IEEE;
 USE IEEE.Std_Logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+USE IEEE.std_logic_unsigned.ALL;
 
 ENTITY Comparator10_10 IS
     PORT (
@@ -10,41 +12,41 @@ ENTITY Comparator10_10 IS
 END Comparator10_10;
 
 ARCHITECTURE arch OF Comparator10_10 IS
-    SIGNAL otp : STD_LOGIC_VECTOR(9 DOWNTO 0) := "0000000000";
+    SIGNAL ret : STD_LOGIC_VECTOR(9 DOWNTO 0) := "0000000000";
 BEGIN
     PROCESS (A, B)
     BEGIN
-        otp <= "0000000000";
-        IF A(0) = B(0) THEN
-            otp(0) <= '1';
+        ret <= "0000000000";
+        IF A(0) = '1' AND B(0) = '1' THEN
+            ret(0) <= '1';
         END IF;
-        IF A(1) = B(1) THEN
-            otp(1) <= '1';
+        IF A(1) = '1' AND B(1) = '1' THEN
+            ret(1) <= '1';
         END IF;
-        IF A(2) = B(2) THEN
-            otp(2) <= '1';
+        IF A(2) = '1' AND B(2) = '1' THEN
+            ret(2) <= '1';
         END IF;
-        IF A(3) = B(3) THEN
-            otp(3) <= '1';
+        IF A(3) = '1' AND B(3) = '1' THEN
+            ret(3) <= '1';
         END IF;
-        IF A(4) = B(4) THEN
-            otp(4) <= '1';
+        IF A(4) = '1' AND B(4) = '1' THEN
+            ret(4) <= '1';
         END IF;
-        IF A(5) = B(5) THEN
-            otp(5) <= '1';
+        IF A(5) = '1' AND B(5) = '1' THEN
+            ret(5) <= '1';
         END IF;
-        IF A(6) = B(6) THEN
-            otp(6) <= '1';
+        IF A(6) = '1' AND B(6) = '1' THEN
+            ret(6) <= '1';
         END IF;
-        IF A(7) = B(7) THEN
-            otp(7) <= '1';
+        IF A(7) = '1' AND B(7) = '1' THEN
+            ret(7) <= '1';
         END IF;
-        IF A(8) = B(8) THEN
-            otp(8) <= '1';
+        IF A(8) = '1' AND B(8) = '1' THEN
+            ret(8) <= '1';
         END IF;
-        IF A(9) = B(9) THEN
-            otp(9) <= '1';
+        IF A(9) = '1' AND B(9) = '1' THEN
+            ret(9) <= '1';
         END IF;
     END PROCESS;
-    S <= otp;
+    S <= ret;
 END arch;
