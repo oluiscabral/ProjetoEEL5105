@@ -79,7 +79,7 @@ BEGIN
                     State <= Check;
 
                 WHEN Check =>
-                    IF (sw_erro = '0' OR end_game = '1' OR end_round = '1') THEN
+                    IF (sw_erro = '1' OR end_game = '1' OR end_round = '1') THEN
                         State <= Result;
                     ELSE
                         State <= Wait_s;

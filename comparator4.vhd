@@ -13,9 +13,9 @@ BEGIN
     PROCESS (A)
     BEGIN
         IF A = "0100" THEN
-            S <= '1';
-        ELSE
             S <= '0';
+        ELSE
+            S <= '1';
         END IF;
     END PROCESS;
 END arch;

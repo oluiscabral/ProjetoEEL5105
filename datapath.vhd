@@ -134,6 +134,7 @@ ARCHITECTURE arch OF Datapath IS
     SIGNAL REG3_Q : STD_LOGIC_VECTOR (7 DOWNTO 0);
     SIGNAL N : STD_LOGIC_VECTOR (3 DOWNTO 0);
 
+    SIGNAL COMP3_S : STD_LOGIC;
     SIGNAL end_game_aux : STD_LOGIC;
 
     CONSTANT NONE_DISPLAY : STD_LOGIC_VECTOR(6 DOWNTO 0) := "1111111";
@@ -159,7 +160,9 @@ BEGIN
     SUM1 : SUM10 PORT MAP(REG2_Q, SUM1_Q);
     SUM2 : SUM10 PORT MAP(COMP1_S, SUM2_Q);
     COMP2 : Comparator4 PORT MAP(SUM1_Q, sw_erro);
-    COMP3 : Comparator4 PORT MAP(SUM2_Q, end_game_aux);
+    COMP3 : Comparator4 PORT MAP(SUM2_Q, COMP3_S);
+
+    end_game_aux <= NOT COMP3_S;
 
     MUX3_A0 <= "0000" & SUM2_Q;
     MUX3_A1 <= "000" & end_game_aux & ("1010" - N);
