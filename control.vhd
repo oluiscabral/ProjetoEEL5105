@@ -93,7 +93,7 @@ BEGIN
                 state_value <= "00100";
 
             WHEN Result =>
-                state_value <= "00001";
+                state_value <= "00101";
 
             WHEN OTHERS =>
                 state_value <= "00000";
