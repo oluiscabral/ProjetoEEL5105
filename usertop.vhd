@@ -48,5 +48,5 @@ BEGIN
     CTRL : Control PORT MAP(BTN1, BTN0, CLK_500Hz, sw_erro, end_game, end_time, end_round, R1, R2, E1, E2, E3, E4, E5);
     DP : Datapath PORT MAP(SW(9 DOWNTO 0), CLK_1HZ, CLK_500Hz, R1, R2, E1, E2, E3, E4, E5, sw_erro, end_game, end_time, end_round, LEDR(9 DOWNTO 0), HEX0, HEX1, HEX2, HEX3, HEX4, HEX5);
 
-    LEDR(17 DOWNTO 7) <= R1 & R2 & E1 & E2 & E3 & E4 & E5 & sw_erro & end_game & end_time & end_round;
+    LEDR(17 DOWNTO 11) <= R1 & R2 & E1 & E2 & E3 & E4 & E5;
 END arch;
