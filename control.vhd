@@ -83,7 +83,6 @@ BEGIN
                         State <= Result;
                     ELSE
                         State <= Wait_s;
-                        r1_aux <= '1';
                     END IF;
 
                 WHEN Wait_s =>
