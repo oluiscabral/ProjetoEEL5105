@@ -28,6 +28,30 @@ BEGIN
             r2_aux <= '0';
         END IF;
 
+        CASE State IS
+            WHEN Setup =>
+                state_value <= "01000";
+
+            WHEN Play =>
+                state_value <= "10000";
+
+            WHEN Count_Round =>
+                state_value <= "00010";
+
+            WHEN Check =>
+                state_value <= "00100";
+
+            WHEN Result =>
+                state_value <= "00101";
+
+            WHEN Wait_s =>
+                state_value <= "00000";
+                r1_aux <= '1';
+
+            WHEN OTHERS =>
+                state_value <= "00000";
+        END CASE;
+
         IF (reset = '0') THEN
             State <= Init;
             r2_aux <= '1';
@@ -78,26 +102,6 @@ BEGIN
                     State <= Init;
             END CASE;
         END IF;
-
-        CASE State IS
-            WHEN Setup =>
-                state_value <= "01000";
-
-            WHEN Play =>
-                state_value <= "10000";
-
-            WHEN Count_Round =>
-                state_value <= "00010";
-
-            WHEN Check =>
-                state_value <= "00100";
-
-            WHEN Result =>
-                state_value <= "00101";
-
-            WHEN OTHERS =>
-                state_value <= "00000";
-        END CASE;
     END PROCESS;
     R1 <= r1_aux;
     R2 <= r2_aux;
