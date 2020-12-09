@@ -179,22 +179,22 @@ BEGIN
     end_game <= end_game_aux;
 
     HEX5 <= T_DISPLAY WHEN E1 = '1' ELSE
-        NONE_DISPLAY;
+    NONE_DISPLAY;
 
     HEX4 <= HEX4_aux WHEN E1 = '1' ELSE
-        NONE_DISPLAY;
+    NONE_DISPLAY;
 
     HEX3 <= R_DISPLAY WHEN in_wait ELSE
-        NONE_DISPLAY;
+    NONE_DISPLAY;
 
     HEX2 <= HEX2_aux WHEN in_wait ELSE
-        NONE_DISPLAY;
+    NONE_DISPLAY;
 
     HEX1 <= HEX1_aux WHEN in_result ELSE
-        NONE_DISPLAY;
+    NONE_DISPLAY;
 
     HEX0 <= HEX0_aux WHEN in_wait OR in_result ELSE
-        NONE_DISPLAY;
+    NONE_DISPLAY;
 
     LEDR(9 DOWNTO 0) <= MUX2_B WHEN in_result ELSE
     ZEROS10;
