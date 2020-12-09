@@ -89,9 +89,6 @@ BEGIN
             WHEN Count_Round =>
                 state_value <= "00010";
 
-            WHEN Wait_s =>
-                state_value <= "00000";
-
             WHEN Result =>
                 state_value <= "00001";
 
