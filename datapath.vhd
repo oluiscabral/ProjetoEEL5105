@@ -142,9 +142,6 @@ ARCHITECTURE arch OF Datapath IS
 
     SIGNAL HEX0_aux, HEX1_aux, HEX2_aux, HEX3_aux, HEX4_aux, HEX5_aux : STD_LOGIC_VECTOR(6 DOWNTO 0);
 BEGIN
-    MUX3_A0 <= "0000" & SUM2_Q;
-    MUX3_A1 <= "000" & end_game_aux & ("1010" - N);
-
     REG1 : REGQ4 PORT MAP(CLK_500Hz, R2, E2, SW(9 DOWNTO 6), REG1_Q);
     REG2 : REGQ10 PORT MAP(CLK_500Hz, R2, E1, SW(9 DOWNTO 0), REG2_Q);
     ROM_GETTER : ROM PORT MAP(REG1_Q, ROM_Q);
@@ -156,6 +153,10 @@ BEGIN
     SUM2 : SUM10 PORT MAP(COMP1_S, SUM2_Q);
     COMP2 : Comparator4 PORT MAP(SUM1_Q, sw_erro);
     COMP3 : Comparator4 PORT MAP(SUM2_Q, end_game_aux);
+
+    MUX3_A0 <= "0000" & SUM2_Q;
+    MUX3_A1 <= "000" & end_game_aux & ("1010" - N);
+
     MUX3 : MUX8 PORT MAP(MUX3_A0, MUX3_A1, E5, MUX3_B);
     REG3 : REGQ8 PORT MAP(CLK_500Hz, R2, E3, MUX3_B, REG3_Q);
     CR : Counter_round PORT MAP(CLK_500Hz, R2, E4, end_round, N);
