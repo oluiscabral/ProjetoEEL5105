@@ -136,18 +136,25 @@ ARCHITECTURE arch OF Datapath IS
 
     SIGNAL end_game_aux : STD_LOGIC;
 
-    CONSTANT none_display : STD_LOGIC_VECTOR(6 DOWNTO 0) := "1111111";
-    CONSTANT t_display : STD_LOGIC_VECTOR(6 DOWNTO 0) := "0000111";
-    CONSTANT r_display : STD_LOGIC_VECTOR(6 DOWNTO 0) := "0101111";
+    CONSTANT NONE_DISPLAY : STD_LOGIC_VECTOR(6 DOWNTO 0) := "1111111";
+    CONSTANT T_DISPLAY : STD_LOGIC_VECTOR(6 DOWNTO 0) := "0000111";
+    CONSTANT R_DISPLAY : STD_LOGIC_VECTOR(6 DOWNTO 0) := "0101111";
 
-    SIGNAL HEX0_aux, HEX1_aux, HEX2_aux, HEX3_aux, HEX4_aux, HEX5_aux : STD_LOGIC_VECTOR(6 DOWNTO 0);
+    CONSTANT ZEROS10 : STD_LOGIC_VECTOR(9 DOWNTO 0) := "0000000000";
+
+    SIGNAL HEX0_aux, HEX1_aux, HEX2_aux, HEX4_aux : STD_LOGIC_VECTOR(6 DOWNTO 0);
+
+    SIGNAL in_result : BOOLEAN;
+    SIGNAL in_wait : BOOLEAN;
 BEGIN
+    in_result <= E3 = '1' AND E5 = '1';
+    in_wait <= R1 = '1' AND E1 = '0' AND E2 = '0' AND E3 = '0' AND E4 = '0' AND E5 = '0';
     REG1 : REGQ4 PORT MAP(CLK_500Hz, R2, E2, SW(9 DOWNTO 6), REG1_Q);
     REG2 : REGQ10 PORT MAP(CLK_500Hz, R2, E1, SW(9 DOWNTO 0), REG2_Q);
     ROM_GETTER : ROM PORT MAP(REG1_Q, ROM_Q);
     CT : Counter_time PORT MAP(CLK_1HZ, R1, E1, end_time, Counter_time_S);
     MUX1 : MUX4 PORT MAP(Counter_time_S, REG1_Q, E2, MUX1_B);
-    MUX2 : MUX10 PORT MAP("0000000000", ROM_Q, E5, MUX2_B);
+    MUX2 : MUX10 PORT MAP(ZEROS10, ROM_Q, E5, MUX2_B);
     COMP1 : Comparator10_10 PORT MAP(ROM_Q, REG2_Q, COMP1_S);
     SUM1 : SUM10 PORT MAP(REG2_Q, SUM1_Q);
     SUM2 : SUM10 PORT MAP(COMP1_S, SUM2_Q);
@@ -162,16 +169,30 @@ BEGIN
     CR : Counter_round PORT MAP(CLK_500Hz, R2, E4, end_round, N);
 
     DEC1 : DEC7SEG PORT MAP(MUX1_B, HEX4_aux);
-    DEC2 : DEC7SEG PORT MAP(N, HEX2);
-    DEC3 : DEC7SEG PORT MAP(REG3_Q(7 DOWNTO 4), HEX1);
-    DEC4 : DEC7SEG PORT MAP(REG3_Q(3 DOWNTO 0), HEX0);
-
-    HEX5 <= t_display WHEN E1 = '1' ELSE
-        none_display;
-    HEX4 <= HEX4_aux WHEN E1 = '1' ELSE
-        none_display;
-
-    HEX3 <= r_display;
+    DEC2 : DEC7SEG PORT MAP(N, HEX2_aux);
+    DEC3 : DEC7SEG PORT MAP(REG3_Q(7 DOWNTO 4), HEX1_aux);
+    DEC4 : DEC7SEG PORT MAP(REG3_Q(3 DOWNTO 0), HEX0_aux);
 
     end_game <= end_game_aux;
+
+    HEX5 <= T_DISPLAY WHEN E1 = '1' ELSE
+        NONE_DISPLAY;
+
+    HEX4 <= HEX4_aux WHEN E1 = '1' ELSE
+        NONE_DISPLAY;
+
+    HEX3 <= R_DISPLAY WHEN in_wait ELSE
+        NONE_DISPLAY;
+
+    HEX2 <= HEX2_aux WHEN in_wait ELSE
+        NONE_DISPLAY;
+
+    HEX1 <= HEX1_aux WHEN in_result ELSE
+        NONE_DISPLAY;
+
+    HEX0 <= HEX0_aux WHEN in_wait OR in_result ELSE
+        NONE_DISPLAY;
+
+    LEDR(9 DOWNTO 0) <= MUX2_B WHEN in_result ELSE
+    ZEROS10;
 END arch;
